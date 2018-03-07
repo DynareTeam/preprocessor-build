@@ -1,3 +1,7 @@
 *~
 
-configuration.mk
+configure.inc.example
+remote.git.example
+
+Boost/*
+boost_*.tar.bz2

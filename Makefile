@@ -12,6 +12,7 @@
 #
 # GPLv3 license is available at <http://www.gnu.org/licenses/>.
 
+include versions/boost.version
 include versions/osx-sdk.version
 
 ifeq ($(wildcard configure.inc),)
@@ -33,9 +34,9 @@ endif
 
 ROOT_PATH := ${CURDIR}
 
-.PHONY: osxcross-init osxcross-build clean-osxcross preprocessor-init preprocessor-fetch preprocessor-set
+.PHONY: osxcross-init osxcross-build clean-osxcross preprocessor-init preprocessor-fetch preprocessor-set boost-clean boost-tar-clean boost-clean-all
 
-all: preprocessor-set osxcross-build
+all: preprocessor-set osxcross-build Boost
 
 osxcross-init:
 	@git submodule update --init
@@ -64,3 +65,22 @@ preprocessor-fetch: preprocessor-init
 preprocessor-set: preprocessor-fetch
 	cd modules/preprocessor && git reset --hard $(PREPROCESSOR_GIT_COMMIT)
 
+Boost: boost_${BOOST_VERSION}.tar.bz2
+	tar xjf boost_${BOOST_VERSION}.tar.bz2
+	mkdir -p Boost
+	mv boost_${BOOST_VERSION}/* Boost
+	rm -r boost_${BOOST_VERSION}
+
+boost_${BOOST_VERSION}.tar.bz2: versions/boost.version
+	rm -f boost_${BOOST_VERSION}.tar.bz2
+	wget https://sourceforge.net/projects/boost/files/boost/`echo "${BOOST_VERSION}" | sed -e 's/_/./g'`/boost_${BOOST_VERSION}.tar.bz2/download -O boost_${BOOST_VERSION}.tar.bz2
+	touch boost_${BOOST_VERSION}.tar.bz2
+	rm -rf ${ROOT_PATH}/sources/Boost
+
+boost-clean:
+	rm -rf Boost
+
+boost-tar-clean:
+	rm -f boost_*.tar.bz2
+
+boost-clean-all: boost-clean boost-tar-clean
