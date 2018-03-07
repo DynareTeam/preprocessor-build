@@ -19,7 +19,7 @@ ifeq ($(wildcard configure.inc),)
 CONFIGURATION_FILE=0
 PREPROCESSOR_GIT_REMOTE=https://github.com/DynareTeam/dynare-preprocessor
 PREPROCESSOR_GIT_BRANCH=master
-PREPROCESSOR_GIT_COMMIT=$(git ls-remote $PREPROCESSOR_REMOTE $PREPROCESSOR_BRANCH | sed "s/refs\/heads\/master//")
+PREPROCESSOR_GIT_COMMIT=$(shell git ls-remote $(PREPROCESSOR_GIT_REMOTE) $(PREPROCESSOR_GIT_BRANCH) | sed "s/[[:space:]]*refs\/heads\/$(PREPROCESSOR_GIT_BRANCH)//")
 else
 include ./configure.inc
 CONFIGURATION_FILE=1
