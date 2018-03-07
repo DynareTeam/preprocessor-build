@@ -36,9 +36,9 @@ ROOT_PATH := ${CURDIR}
 
 .PHONY: osxcross-init osxcross-build clean-osxcross preprocessor-init preprocessor-fetch preprocessor-set boost-clean boost-tar-clean boost-clean-all
 
-all: preprocessor-set osxcross-build Boost
+all: preprocessor-set osxcross-build Boost build
 
-build: linux-build windows-build
+build: linux-build windows-build osx-build
 
 #
 # OSXCROSS
