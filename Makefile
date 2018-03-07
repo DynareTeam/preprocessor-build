@@ -100,3 +100,99 @@ boost-tar-clean:
 	rm -f boost_*.tar.bz2
 
 boost-clean-all: boost-clean boost-tar-clean
+
+#
+# BUILD PREPROCESSOR (LINUX TARGET)
+#
+
+linux-build: tmp/binaries/linux/32/dynare_m tmp/binaries/linux/64/dynare_m
+	rm -rf tmp/linux
+
+linux-dist: tmp/binaries/linux-$(PREPROCESSOR_GIT_COMMIT).zip
+
+tmp/binaries/linux-$(PREPROCESSOR_GIT_COMMIT).zip: linux-build
+	cd tmp/binaries/linux && zip -r linux-$(PREPROCESSOR_GIT_COMMIT).zip .
+
+tmp/binaries/linux/32/dynare_m: preprocessor-set
+	mkdir -p tmp/linux/32
+	cp -r modules/preprocessor/* tmp/linux/32
+	cd tmp/linux/32 && autoreconf -si
+	cd tmp/linux/32 && ./configure --with-boost=$(ROOT_PATH)/Boost CXX=g++-6 LDFLAGS='-m32 -static -static-libgcc -static-libstdc++' CPPFLAGS='-m32'
+	cd tmp/linux/32 && make
+	mkdir -p tmp/binaries/linux/32
+	mv tmp/linux/32/src/dynare_m tmp/binaries/linux/32
+	rm -rf tmp/linux/32
+
+tmp/binaries/linux/64/dynare_m: preprocessor-set
+	mkdir -p tmp/linux/64
+	cp -r modules/preprocessor/* tmp/linux/64
+	cd tmp/linux/64 && autoreconf -si
+	cd tmp/linux/64 && ./configure --with-boost=$(ROOT_PATH)/Boost CXX=g++-6 LDFLAGS='-static -static-libgcc -static-libstdc++'
+	cd tmp/linux/64 && make
+	mkdir -p tmp/binaries/linux/64
+	mv tmp/linux/64/src/dynare_m tmp/binaries/linux/64
+	rm -rf tmp/linux/64
+
+#
+# BUILD PREPROCESSOR (WINDOWS TARGET)
+#
+
+windows-build: tmp/binaries/windows/32/dynare_m.exe tmp/binaries/windows/64/dynare_m.exe
+	rm -rf tmp/windows
+
+windows-dist: tmp/binaries/windows-$(PREPROCESSOR_GIT_COMMIT).zip
+
+tmp/binaries/windows-$(PREPROCESSOR_GIT_COMMIT).zip: windows-build
+	cd tmp/binaries/windows && zip -r windows-$(PREPROCESSOR_GIT_COMMIT).zip .
+
+tmp/binaries/windows/32/dynare_m.exe: preprocessor-set
+	mkdir -p tmp/windows/32
+	cp -r modules/preprocessor/* tmp/windows/32
+	cd tmp/windows/32 && autoreconf -si
+	cd tmp/windows/32 && ./configure --host=i686-w64-mingw32 --with-boost=$(ROOT_PATH)/Boost LDFLAGS='-static -static-libgcc -static-libstdc++'
+	cd tmp/windows/32 && make
+	mkdir -p tmp/binaries/windows/32
+	mv tmp/windows/32/src/dynare_m.exe tmp/binaries/windows/32
+	rm -rf tmp/windows/32
+
+tmp/binaries/windows/64/dynare_m.exe: preprocessor-set
+	mkdir -p tmp/windows/64
+	cp -r modules/preprocessor/* tmp/windows/64
+	cd tmp/windows/64 && autoreconf -si
+	cd tmp/windows/64 && ./configure --host=x86_64-w64-mingw32 --with-boost=$(ROOT_PATH)/Boost LDFLAGS='-static -static-libgcc -static-libstdc++'
+	cd tmp/windows/64 && make
+	mkdir -p tmp/binaries/windows/64
+	mv tmp/windows/64/src/dynare_m.exe tmp/binaries/windows/64
+	rm -rf tmp/windows/64
+
+#
+# BUILD PREPROCESSOR (OSX TARGET)
+#
+
+osx-build: tmp/binaries/osx/32/dynare_m tmp/binaries/osx/64/dynare_m
+	rm -rf tmp/osx
+
+osx-dist: tmp/binaries/osx-$(PREPROCESSOR_GIT_COMMIT).zip
+
+tmp/binaries/osx-$(PREPROCESSOR_GIT_COMMIT).zip: osx-build
+	cd tmp/binaries/osx && zip -r osx-$(PREPROCESSOR_GIT_COMMIT).zip .
+
+tmp/binaries/osx/32/dynare_m: preprocessor-set
+	mkdir -p tmp/osx/32
+	cp -r modules/preprocessor/* tmp/osx/32
+	cd tmp/osx/32 && autoreconf -si
+	cd tmp/osx/32 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && ./configure --host=i386-apple-darwin15 CXX=o32-clang++ --with-boost=$(ROOT_PATH)/Boost CXXFLAGS='-stdlib=libc++ -std=c++11' LDFLAGS='-std=c++11' AR=i386-apple-darwin15-ar
+	cd tmp/osx/32 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && make
+	mkdir -p tmp/binaries/osx/32
+	mv tmp/osx/32/src/dynare_m tmp/binaries/osx/32
+	rm -rf tmp/osx/32
+
+tmp/binaries/osx/64/dynare_m: preprocessor-set
+	mkdir -p tmp/osx/64
+	cp -r modules/preprocessor/* tmp/osx/64
+	cd tmp/osx/64 && autoreconf -si
+	cd tmp/osx/64 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && ./configure --host=x86_64-apple-darwin15 CXX=o64-clang++ --with-boost=$(ROOT_PATH)/Boost CXXFLAGS='-stdlib=libc++ -std=c++11' LDFLAGS='-std=c++11' AR=x86_64-apple-darwin15-ar
+	cd tmp/osx/64 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && make
+	mkdir -p tmp/binaries/osx/64
+	mv tmp/osx/64/src/dynare_m tmp/binaries/osx/64
+	rm -rf tmp/osx/64
