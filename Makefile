@@ -65,10 +65,16 @@ preprocessor-fetch: preprocessor-init
 preprocessor-set: preprocessor-fetch
 	cd modules/preprocessor && git reset --hard $(PREPROCESSOR_GIT_COMMIT)
 
-Boost: boost_${BOOST_VERSION}.tar.bz2
+#
+# BOOST HEADERS
+#
+
+Boost: Boost/include/boost
+
+Boost/include/boost: boost_${BOOST_VERSION}.tar.bz2
 	tar xjf boost_${BOOST_VERSION}.tar.bz2
-	mkdir -p Boost
-	mv boost_${BOOST_VERSION}/* Boost
+	mkdir -p Boost/include/boost
+	mv boost_${BOOST_VERSION}/boost/* Boost/include/boost
 	rm -r boost_${BOOST_VERSION}
 
 boost_${BOOST_VERSION}.tar.bz2: versions/boost.version
