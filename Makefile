@@ -57,10 +57,10 @@ osxcross-clean:
 	rm -rf modules/osxcross
 
 preprocessor-init:
-	git submodule update --init
+	@git submodule update --init
 
 preprocessor-fetch: preprocessor-init
-	cd modules/preprocessor && git fetch --all
+	@cd modules/preprocessor && git fetch --all
 
 preprocessor-set: preprocessor-fetch
 	cd modules/preprocessor && git reset --hard $(PREPROCESSOR_GIT_COMMIT)
