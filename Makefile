@@ -38,6 +38,12 @@ ROOT_PATH := ${CURDIR}
 
 all: preprocessor-set osxcross-build Boost
 
+build: linux-build windows-build
+
+#
+# OSXCROSS
+#
+
 osxcross-init:
 	@git submodule update --init
 
@@ -55,6 +61,10 @@ modules/osxcross/tarballs/MacOSX$(OSX_SDK_VERSION).sdk.tar.xz: versions/osx-sdk.
 
 osxcross-clean:
 	rm -rf modules/osxcross
+
+#
+# PREPROCESSOR SOURCES
+#
 
 preprocessor-init:
 	@git submodule update --init
