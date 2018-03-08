@@ -41,7 +41,7 @@ all: preprocessor-set osxcross-build Boost dist
 
 dist: linux-dist windows-dist osx-dist
 
-build: linux-build windows-build osx-build
+build: preprocessor-sources linux-build windows-build osx-build
 
 #
 # OSXCROSS
@@ -118,9 +118,9 @@ builds/linux/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/linux.zip
 linux-build: tmp/binaries/linux/32/dynare_m tmp/binaries/linux/64/dynare_m
 	rm -rf tmp/linux
 
-tmp/binaries/linux/32/dynare_m: preprocessor-set
+tmp/binaries/linux/32/dynare_m:
 	mkdir -p tmp/linux/32
-	cp -r modules/preprocessor/* tmp/linux/32
+	cp -r sources/* tmp/linux/32
 	cd tmp/linux/32 && autoreconf -si
 	cd tmp/linux/32 && ./configure --with-boost=$(ROOT_PATH)/Boost CXX=g++-6 LDFLAGS='-m32 -static -static-libgcc -static-libstdc++' CPPFLAGS='-m32'
 	cd tmp/linux/32 && make
@@ -128,9 +128,9 @@ tmp/binaries/linux/32/dynare_m: preprocessor-set
 	mv tmp/linux/32/src/dynare_m tmp/binaries/linux/32
 	rm -rf tmp/linux/32
 
-tmp/binaries/linux/64/dynare_m: preprocessor-set
+tmp/binaries/linux/64/dynare_m:
 	mkdir -p tmp/linux/64
-	cp -r modules/preprocessor/* tmp/linux/64
+	cp -r sources/* tmp/linux/64
 	cd tmp/linux/64 && autoreconf -si
 	cd tmp/linux/64 && ./configure --with-boost=$(ROOT_PATH)/Boost CXX=g++-6 LDFLAGS='-static -static-libgcc -static-libstdc++'
 	cd tmp/linux/64 && make
@@ -156,9 +156,9 @@ builds/windows/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/windows
 windows-build: tmp/binaries/windows/32/dynare_m.exe tmp/binaries/windows/64/dynare_m.exe
 	rm -rf tmp/windows
 
-tmp/binaries/windows/32/dynare_m.exe: preprocessor-set
+tmp/binaries/windows/32/dynare_m.exe:
 	mkdir -p tmp/windows/32
-	cp -r modules/preprocessor/* tmp/windows/32
+	cp -r sources/* tmp/windows/32
 	cd tmp/windows/32 && autoreconf -si
 	cd tmp/windows/32 && ./configure --host=i686-w64-mingw32 --with-boost=$(ROOT_PATH)/Boost LDFLAGS='-static -static-libgcc -static-libstdc++'
 	cd tmp/windows/32 && make
@@ -166,9 +166,9 @@ tmp/binaries/windows/32/dynare_m.exe: preprocessor-set
 	mv tmp/windows/32/src/dynare_m.exe tmp/binaries/windows/32
 	rm -rf tmp/windows/32
 
-tmp/binaries/windows/64/dynare_m.exe: preprocessor-set
+tmp/binaries/windows/64/dynare_m.exe:
 	mkdir -p tmp/windows/64
-	cp -r modules/preprocessor/* tmp/windows/64
+	cp -r sources/* tmp/windows/64
 	cd tmp/windows/64 && autoreconf -si
 	cd tmp/windows/64 && ./configure --host=x86_64-w64-mingw32 --with-boost=$(ROOT_PATH)/Boost LDFLAGS='-static -static-libgcc -static-libstdc++'
 	cd tmp/windows/64 && make
@@ -194,9 +194,9 @@ builds/osx/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/osx.zip
 osx-build: tmp/binaries/osx/32/dynare_m tmp/binaries/osx/64/dynare_m
 	rm -rf tmp/osx
 
-tmp/binaries/osx/32/dynare_m: preprocessor-set
+tmp/binaries/osx/32/dynare_m:
 	mkdir -p tmp/osx/32
-	cp -r modules/preprocessor/* tmp/osx/32
+	cp -r sources/* tmp/osx/32
 	cd tmp/osx/32 && autoreconf -si
 	cd tmp/osx/32 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && ./configure --host=i386-apple-darwin15 CXX=o32-clang++ --with-boost=$(ROOT_PATH)/Boost CXXFLAGS='-stdlib=libc++ -std=c++11' LDFLAGS='-std=c++11' AR=i386-apple-darwin15-ar
 	cd tmp/osx/32 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && make
@@ -204,9 +204,9 @@ tmp/binaries/osx/32/dynare_m: preprocessor-set
 	mv tmp/osx/32/src/dynare_m tmp/binaries/osx/32
 	rm -rf tmp/osx/32
 
-tmp/binaries/osx/64/dynare_m: preprocessor-set
+tmp/binaries/osx/64/dynare_m:
 	mkdir -p tmp/osx/64
-	cp -r modules/preprocessor/* tmp/osx/64
+	cp -r sources/* tmp/osx/64
 	cd tmp/osx/64 && autoreconf -si
 	cd tmp/osx/64 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && ./configure --host=x86_64-apple-darwin15 CXX=o64-clang++ --with-boost=$(ROOT_PATH)/Boost CXXFLAGS='-stdlib=libc++ -std=c++11' LDFLAGS='-std=c++11' AR=x86_64-apple-darwin15-ar
 	cd tmp/osx/64 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && make
