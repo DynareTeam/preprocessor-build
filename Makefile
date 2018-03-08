@@ -35,8 +35,11 @@ endif
 ROOT_PATH := ${CURDIR}
 
 .PHONY: osxcross-init osxcross-build clean-osxcross preprocessor-init preprocessor-fetch preprocessor-set boost-clean boost-tar-clean boost-clean-all
+.PHONY: all dist linux-dist windows-dist osx-dist build linux-build windows-build osx-build
 
-all: preprocessor-set osxcross-build Boost build
+all: preprocessor-set osxcross-build Boost dist
+
+dist: linux-dist windows-dist osx-dist
 
 build: linux-build windows-build osx-build
 
@@ -105,13 +108,19 @@ boost-clean-all: boost-clean boost-tar-clean
 # BUILD PREPROCESSOR (LINUX TARGET)
 #
 
+linux-dist: builds/linux/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
+	rm -rf tmp/binaries/linux
+
+tmp/binaries/linux.zip: linux-build
+	cd tmp/binaries/linux && zip -r linux.zip .
+
+builds/linux/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/linux.zip
+	mkdir -p builds/linux/$(PREPROCESSOR_GIT_COMMIT)
+	mv tmp/binaries/linux/linux.zip builds/linux/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
+	cd builds/linux/$(PREPROCESSOR_GIT_COMMIT) && sha512sum preprocessor.zip > sha512sum && gpg --clearsign sha512sum
+
 linux-build: tmp/binaries/linux/32/dynare_m tmp/binaries/linux/64/dynare_m
 	rm -rf tmp/linux
-
-linux-dist: tmp/binaries/linux-$(PREPROCESSOR_GIT_COMMIT).zip
-
-tmp/binaries/linux-$(PREPROCESSOR_GIT_COMMIT).zip: linux-build
-	cd tmp/binaries/linux && zip -r linux-$(PREPROCESSOR_GIT_COMMIT).zip .
 
 tmp/binaries/linux/32/dynare_m: preprocessor-set
 	mkdir -p tmp/linux/32
@@ -137,13 +146,19 @@ tmp/binaries/linux/64/dynare_m: preprocessor-set
 # BUILD PREPROCESSOR (WINDOWS TARGET)
 #
 
+windows-dist: builds/windows/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
+	rm -rf tmp/binaries/windows
+
+tmp/binaries/windows.zip: windows-build
+	cd tmp/binaries/windows && zip -r windows.zip .
+
+builds/windows/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/windows.zip
+	mkdir -p builds/windows/$(PREPROCESSOR_GIT_COMMIT)
+	mv tmp/binaries/windows/windows.zip builds/windows/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
+	cd builds/windows/$(PREPROCESSOR_GIT_COMMIT) && sha512sum preprocessor.zip > sha512sum && gpg --clearsign sha512sum
+
 windows-build: tmp/binaries/windows/32/dynare_m.exe tmp/binaries/windows/64/dynare_m.exe
 	rm -rf tmp/windows
-
-windows-dist: tmp/binaries/windows-$(PREPROCESSOR_GIT_COMMIT).zip
-
-tmp/binaries/windows-$(PREPROCESSOR_GIT_COMMIT).zip: windows-build
-	cd tmp/binaries/windows && zip -r windows-$(PREPROCESSOR_GIT_COMMIT).zip .
 
 tmp/binaries/windows/32/dynare_m.exe: preprocessor-set
 	mkdir -p tmp/windows/32
@@ -169,13 +184,19 @@ tmp/binaries/windows/64/dynare_m.exe: preprocessor-set
 # BUILD PREPROCESSOR (OSX TARGET)
 #
 
+osx-dist: builds/osx/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
+	rm -rf tmp/binaries/osx
+
+tmp/binaries/osx.zip: osx-build
+	cd tmp/binaries/osx && zip -r osx.zip .
+
+builds/osx/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/osx.zip
+	mkdir -p builds/osx/$(PREPROCESSOR_GIT_COMMIT)
+	mv tmp/binaries/osx/osx.zip builds/osx/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
+	cd builds/osx/$(PREPROCESSOR_GIT_COMMIT) && sha512sum preprocessor.zip > sha512sum && gpg --clearsign sha512sum
+
 osx-build: tmp/binaries/osx/32/dynare_m tmp/binaries/osx/64/dynare_m
 	rm -rf tmp/osx
-
-osx-dist: tmp/binaries/osx-$(PREPROCESSOR_GIT_COMMIT).zip
-
-tmp/binaries/osx-$(PREPROCESSOR_GIT_COMMIT).zip: osx-build
-	cd tmp/binaries/osx && zip -r osx-$(PREPROCESSOR_GIT_COMMIT).zip .
 
 tmp/binaries/osx/32/dynare_m: preprocessor-set
 	mkdir -p tmp/osx/32
