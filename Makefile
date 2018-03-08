@@ -34,7 +34,7 @@ endif
 
 ROOT_PATH := ${CURDIR}
 
-.PHONY: osxcross-init osxcross-build clean-osxcross preprocessor-init preprocessor-fetch preprocessor-set boost-clean boost-tar-clean boost-clean-all
+.PHONY: osxcross-init osxcross-build clean-osxcross preprocessor-sources boost-clean boost-tar-clean boost-clean-all
 .PHONY: all dist linux-dist windows-dist osx-dist build linux-build windows-build osx-build
 
 all: preprocessor-set osxcross-build Boost dist
@@ -69,14 +69,10 @@ osxcross-clean:
 # PREPROCESSOR SOURCES
 #
 
-preprocessor-init:
-	@git submodule update --init
-
-preprocessor-fetch: preprocessor-init
-	@cd modules/preprocessor && git fetch --all
-
-preprocessor-set: preprocessor-fetch
-	cd modules/preprocessor && git reset --hard $(PREPROCESSOR_GIT_COMMIT)
+preprocessor-sources:
+	rm -rf sources
+	git clone $(PREPROCESSOR_GIT_REMOTE) sources
+	cd sources && git reset --hard $(PREPROCESSOR_GIT_COMMIT)
 
 #
 # BOOST HEADERS
