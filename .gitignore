@@ -7,3 +7,5 @@ Boost/*
 boost_*.tar.bz2
 
 sources/*
+
+builds/*
