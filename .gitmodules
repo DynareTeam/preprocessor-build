@@ -1,6 +1,3 @@
 [submodule "modules/osxcross"]
 	path = modules/osxcross
 	url = https://github.com/tpoechtrager/osxcross.git
-[submodule "modules/preprocessor"]
-	path = modules/preprocessor
-	url = https://github.com/DynareTeam/dynare-preprocessor
