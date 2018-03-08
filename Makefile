@@ -73,7 +73,8 @@ preprocessor-sources:
 	rm -rf sources
 	git clone $(PREPROCESSOR_GIT_REMOTE) sources
 	cd sources && git reset --hard $(PREPROCESSOR_GIT_COMMIT)
-
+	cd sources && cat configure.ac | sed "s/AC_INIT(\[dynare-preprocessor\], \[.*\])/AC_INIT([dynare-preprocessor],\ [$PREPROCESSOR_GIT_COMMIT])/" > configure.ac.new
+	mv sources/configure.ac.new sources/configure.ac
 #
 # BOOST HEADERS
 #
