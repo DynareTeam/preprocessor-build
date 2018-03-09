@@ -121,6 +121,9 @@ builds/linux/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/linux.zip
 	mkdir -p builds/linux/$(PREPROCESSOR_GIT_COMMIT)
 	mv tmp/binaries/linux/linux.zip builds/linux/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
 	cd builds/linux/$(PREPROCESSOR_GIT_COMMIT) && sha512sum preprocessor.zip > sha512sum && gpg --clearsign sha512sum
+	@if [ $(REMOTE_FILE) -eq 1 ]; then\
+        scp -r builds/linux/$(PREPROCESSOR_GIT_COMMIT) $(REMOTE_SERVER):$(REMOTE_PATH)/linux ;\
+	fi
 
 linux-build: tmp/binaries/linux/32/dynare_m tmp/binaries/linux/64/dynare_m
 	rm -rf tmp/linux
@@ -161,6 +164,9 @@ builds/windows/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/windows
 	mkdir -p builds/windows/$(PREPROCESSOR_GIT_COMMIT)
 	mv tmp/binaries/windows/windows.zip builds/windows/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
 	cd builds/windows/$(PREPROCESSOR_GIT_COMMIT) && sha512sum preprocessor.zip > sha512sum && gpg --clearsign sha512sum
+	@if [ $(REMOTE_FILE) -eq 1 ]; then\
+        scp -r builds/windows/$(PREPROCESSOR_GIT_COMMIT) $(REMOTE_SERVER):$(REMOTE_PATH)/windows ;\
+	fi
 
 windows-build: tmp/binaries/windows/32/dynare_m.exe tmp/binaries/windows/64/dynare_m.exe
 	rm -rf tmp/windows
@@ -201,6 +207,9 @@ builds/osx/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/osx.zip
 	mkdir -p builds/osx/$(PREPROCESSOR_GIT_COMMIT)
 	mv tmp/binaries/osx/osx.zip builds/osx/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
 	cd builds/osx/$(PREPROCESSOR_GIT_COMMIT) && sha512sum preprocessor.zip > sha512sum && gpg --clearsign sha512sum
+	@if [ $(REMOTE_FILE) -eq 1 ]; then\
+        scp -r builds/osx/$(PREPROCESSOR_GIT_COMMIT) $(REMOTE_SERVER):$(REMOTE_PATH)/osx ;\
+	fi
 
 osx-build: tmp/binaries/osx/32/dynare_m tmp/binaries/osx/64/dynare_m
 	rm -rf tmp/osx
