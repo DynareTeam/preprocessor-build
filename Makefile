@@ -129,7 +129,7 @@ tmp/binaries/linux/32/dynare_m:
 	mkdir -p tmp/linux/32
 	cp -r sources/* tmp/linux/32
 	cd tmp/linux/32 && autoreconf -si
-	cd tmp/linux/32 && ./configure --with-boost=$(ROOT_PATH)/Boost CXX=g++-6 LDFLAGS='-m32 -static -static-libgcc -static-libstdc++' CPPFLAGS='-m32'
+	cd tmp/linux/32 && ./configure --with-boost=$(ROOT_PATH)/Boost CXX=g++-6  LDFLAGS='-m32 -static -static-libgcc -static-libstdc++' CXXFLAGS='-m32'
 	cd tmp/linux/32 && make
 	mkdir -p tmp/binaries/linux/32
 	mv tmp/linux/32/src/dynare_m tmp/binaries/linux/32
