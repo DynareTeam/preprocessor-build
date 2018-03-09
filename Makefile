@@ -127,6 +127,7 @@ tmp/binaries/linux/32/dynare_m:
 	cd tmp/linux/32 && make
 	mkdir -p tmp/binaries/linux/32
 	mv tmp/linux/32/src/dynare_m tmp/binaries/linux/32
+	cd tmp/binaries/linux/32 && strip dynare_m
 	rm -rf tmp/linux/32
 
 tmp/binaries/linux/64/dynare_m:
@@ -137,6 +138,7 @@ tmp/binaries/linux/64/dynare_m:
 	cd tmp/linux/64 && make
 	mkdir -p tmp/binaries/linux/64
 	mv tmp/linux/64/src/dynare_m tmp/binaries/linux/64
+	cd tmp/binaries/linux/64 && strip dynare_m
 	rm -rf tmp/linux/64
 
 #
@@ -165,6 +167,7 @@ tmp/binaries/windows/32/dynare_m.exe:
 	cd tmp/windows/32 && make
 	mkdir -p tmp/binaries/windows/32
 	mv tmp/windows/32/src/dynare_m.exe tmp/binaries/windows/32
+	cd tmp/binaries/windows/32 && i686-w64-mingw32-strip dynare_m.exe
 	rm -rf tmp/windows/32
 
 tmp/binaries/windows/64/dynare_m.exe:
@@ -175,6 +178,7 @@ tmp/binaries/windows/64/dynare_m.exe:
 	cd tmp/windows/64 && make
 	mkdir -p tmp/binaries/windows/64
 	mv tmp/windows/64/src/dynare_m.exe tmp/binaries/windows/64
+	cd tmp/binaries/windows/64 && x86_64-w64-mingw32-strip dynare_m.exe
 	rm -rf tmp/windows/64
 
 #
