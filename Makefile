@@ -34,11 +34,32 @@ endif
 
 ROOT_PATH := ${CURDIR}
 
+# Decide if there is something to do
+ifneq ($(wildcard builds/linux/$(PREPROCESSOR_GIT_COMMIT)/.),)
+  ifneq ($(wildcard builds/windows/$(PREPROCESSOR_GIT_COMMIT)/.),)
+    ifneq ($(wildcard builds/osx/$(PREPROCESSOR_GIT_COMMIT)/.),)
+      DONE=1
+    else
+      DONE=0
+    endif
+  else
+    DONE=0
+  endif
+else
+  DONE=0
+endif
+
 .PHONY: osxcross-init osxcross-build osxcross-clean boost-clean boost-tar-clean boost-clean-all install
 .PHONY: preprocessor-sources
 .PHONY: all distribution dist linux-dist windows-dist osx-dist build linux-build windows-build osx-build
 
-all: distribution
+all:
+	@if [ $(DONE) -eq 0 ] ; then \
+        rm -rf builds/windows/$(PREPROCESSOR_GIT_COMMIT) ; \
+        rm -rf builds/linux/$(PREPROCESSOR_GIT_COMMIT) ; \
+        rm -rf builds/osx/$(PREPROCESSOR_GIT_COMMIT) ; \
+        $(MAKE) -j distribution ; \
+        fi
 
 distribution: preprocessor-sources
 	$(MAKE) dist
