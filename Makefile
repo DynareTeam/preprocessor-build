@@ -34,14 +34,20 @@ endif
 
 ROOT_PATH := ${CURDIR}
 
-.PHONY: osxcross-init osxcross-build clean-osxcross preprocessor-sources boost-clean boost-tar-clean boost-clean-all
-.PHONY: all dist linux-dist windows-dist osx-dist build linux-build windows-build osx-build
+.PHONY: osxcross-init osxcross-build osxcross-clean boost-clean boost-tar-clean boost-clean-all install
+.PHONY: preprocessor-sources
+.PHONY: all distribution dist linux-dist windows-dist osx-dist build linux-build windows-build osx-build
 
-all: preprocessor-set osxcross-build Boost dist
+all: distribution
+
+distribution: preprocessor-sources
+	$(MAKE) dist
 
 dist: linux-dist windows-dist osx-dist
 
-build: preprocessor-sources linux-build windows-build osx-build
+build: linux-build windows-build osx-build
+
+install: osxcross-build Boost
 
 #
 # OSXCROSS
