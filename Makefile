@@ -199,7 +199,7 @@ tmp/binaries/osx/32/dynare_m:
 	mkdir -p tmp/osx/32
 	cp -r sources/* tmp/osx/32
 	cd tmp/osx/32 && autoreconf -si
-	cd tmp/osx/32 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && ./configure --host=i386-apple-darwin15 CXX=o32-clang++ --with-boost=$(ROOT_PATH)/Boost CXXFLAGS='-stdlib=libc++ -std=c++11' LDFLAGS='-std=c++11' AR=i386-apple-darwin15-ar
+	cd tmp/osx/32 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && ./configure --host=i386-apple-darwin15 CXX=o32-clang++ --with-boost=$(ROOT_PATH)/Boost CXXFLAGS='-stdlib=libc++' AR=i386-apple-darwin15-ar
 	cd tmp/osx/32 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && make
 	mkdir -p tmp/binaries/osx/32
 	mv tmp/osx/32/src/dynare_m tmp/binaries/osx/32
@@ -209,7 +209,7 @@ tmp/binaries/osx/64/dynare_m:
 	mkdir -p tmp/osx/64
 	cp -r sources/* tmp/osx/64
 	cd tmp/osx/64 && autoreconf -si
-	cd tmp/osx/64 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && ./configure --host=x86_64-apple-darwin15 CXX=o64-clang++ --with-boost=$(ROOT_PATH)/Boost CXXFLAGS='-stdlib=libc++ -std=c++11' LDFLAGS='-std=c++11' AR=x86_64-apple-darwin15-ar
+	cd tmp/osx/64 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && ./configure --host=x86_64-apple-darwin15 CXX=o64-clang++ --with-boost=$(ROOT_PATH)/Boost  CXXFLAGS='-stdlib=libc++' AR=x86_64-apple-darwin15-ar
 	cd tmp/osx/64 && export PATH=$(ROOT_PATH)/modules/osxcross/target/bin:$(PATH) && make
 	mkdir -p tmp/binaries/osx/64
 	mv tmp/osx/64/src/dynare_m tmp/binaries/osx/64
