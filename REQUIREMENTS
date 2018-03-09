@@ -1,0 +1,1 @@
+git build-essential flex bison autoconf automake clang llvm-dev patch libxml2-dev zlib1g-dev libmpc-dev libmpfr-dev libgmp-dev mingw-w64 gcc-multilib g++-multilib zip 
