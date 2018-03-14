@@ -51,22 +51,23 @@ endif
 
 .PHONY: osxcross-init osxcross-build osxcross-clean boost-clean boost-tar-clean boost-clean-all install
 .PHONY: preprocessor-sources
-.PHONY: all distribution dist linux-dist windows-dist osx-dist build linux-build windows-build osx-build
+.PHONY: all distribution dist linux-dist windows-dist osx-dist
 
 all:
 	@if [ $(DONE) -eq 0 ] ; then \
-        rm -rf builds/windows/$(PREPROCESSOR_GIT_COMMIT) ; \
-        rm -rf builds/linux/$(PREPROCESSOR_GIT_COMMIT) ; \
-        rm -rf builds/osx/$(PREPROCESSOR_GIT_COMMIT) ; \
-        $(MAKE) -j distribution ; \
+          rm -rf builds/windows/$(PREPROCESSOR_GIT_COMMIT) ; \
+          rm -rf builds/linux/$(PREPROCESSOR_GIT_COMMIT) ; \
+          rm -rf builds/osx/$(PREPROCESSOR_GIT_COMMIT) ; \
+          $(MAKE) -j distribution ; \
         fi
 
 distribution: preprocessor-sources
 	$(MAKE) dist
+	@if [ $(REMOTE_FILE) -eq 1 ]; then\
+	  scp -r builds/$(PREPROCESSOR_GIT_COMMIT) $(REMOTE_SERVER):$(REMOTE_PATH) ;\
+	fi
 
 dist: linux-dist windows-dist osx-dist
-
-build: linux-build windows-build osx-build
 
 install: osxcross-build Boost
 
@@ -132,22 +133,20 @@ boost-clean-all: boost-clean boost-tar-clean
 # BUILD PREPROCESSOR (LINUX TARGET)
 #
 
-linux-dist: builds/linux/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
+linux-dist: builds/$(PREPROCESSOR_GIT_COMMIT)/linux/32/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/linux/64/preprocessor.tar.gz
 	rm -rf tmp/binaries/linux
 
-tmp/binaries/linux.zip: linux-build
-	cd tmp/binaries/linux && zip -r linux.zip .
+builds/$(PREPROCESSOR_GIT_COMMIT)/linux/32/preprocessor.tar.gz: tmp/binaries/linux/32/dynare_m
+	mkdir -p builds/$(PREPROCESSOR_GIT_COMMIT)/linux/32
+	cd tmp/binaries/linux/32 && tar cfz preprocessor.tar.gz dynare_m
+	mv tmp/binaries/linux/32/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/linux/32
+	cd builds/$(PREPROCESSOR_GIT_COMMIT)/linux/32 && sha256sum preprocessor.tar.gz > sha256sum && gpg --clearsign sha256sum
 
-builds/linux/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/linux.zip
-	mkdir -p builds/linux/$(PREPROCESSOR_GIT_COMMIT)
-	mv tmp/binaries/linux/linux.zip builds/linux/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
-	cd builds/linux/$(PREPROCESSOR_GIT_COMMIT) && sha256sum preprocessor.zip > sha256sum && gpg --clearsign sha256sum
-	@if [ $(REMOTE_FILE) -eq 1 ]; then\
-        scp -r builds/linux/$(PREPROCESSOR_GIT_COMMIT) $(REMOTE_SERVER):$(REMOTE_PATH)/linux ;\
-	fi
-
-linux-build: tmp/binaries/linux/32/dynare_m tmp/binaries/linux/64/dynare_m
-	rm -rf tmp/linux
+builds/$(PREPROCESSOR_GIT_COMMIT)/linux/64/preprocessor.tar.gz: tmp/binaries/linux/64/dynare_m
+	mkdir -p builds/$(PREPROCESSOR_GIT_COMMIT)/linux/64
+	cd tmp/binaries/linux/64 && tar cfz preprocessor.tar.gz dynare_m
+	mv tmp/binaries/linux/64/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/linux/64
+	cd builds/$(PREPROCESSOR_GIT_COMMIT)/linux/64 && sha256sum preprocessor.tar.gz > sha256sum && gpg --clearsign sha256sum
 
 tmp/binaries/linux/32/dynare_m:
 	mkdir -p tmp/linux/32
@@ -175,22 +174,20 @@ tmp/binaries/linux/64/dynare_m:
 # BUILD PREPROCESSOR (WINDOWS TARGET)
 #
 
-windows-dist: builds/windows/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
+windows-dist: builds/$(PREPROCESSOR_GIT_COMMIT)/windows/32/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/windows/64/preprocessor.tar.gz
 	rm -rf tmp/binaries/windows
 
-tmp/binaries/windows.zip: windows-build
-	cd tmp/binaries/windows && zip -r windows.zip .
+builds/$(PREPROCESSOR_GIT_COMMIT)/windows/32/preprocessor.tar.gz: tmp/binaries/windows/32/dynare_m.exe
+	mkdir -p builds/$(PREPROCESSOR_GIT_COMMIT)/windows/32
+	cd tmp/binaries/windows/32 && tar cfz preprocessor.tar.gz dynare_m.exe
+	mv tmp/binaries/windows/32/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/windows/32
+	cd builds/$(PREPROCESSOR_GIT_COMMIT)/windows/32 && sha256sum preprocessor.tar.gz > sha256sum && gpg --clearsign sha256sum
 
-builds/windows/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/windows.zip
-	mkdir -p builds/windows/$(PREPROCESSOR_GIT_COMMIT)
-	mv tmp/binaries/windows/windows.zip builds/windows/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
-	cd builds/windows/$(PREPROCESSOR_GIT_COMMIT) && sha256sum preprocessor.zip > sha256sum && gpg --clearsign sha256sum
-	@if [ $(REMOTE_FILE) -eq 1 ]; then\
-        scp -r builds/windows/$(PREPROCESSOR_GIT_COMMIT) $(REMOTE_SERVER):$(REMOTE_PATH)/windows ;\
-	fi
-
-windows-build: tmp/binaries/windows/32/dynare_m.exe tmp/binaries/windows/64/dynare_m.exe
-	rm -rf tmp/windows
+builds/$(PREPROCESSOR_GIT_COMMIT)/windows/64/preprocessor.tar.gz: tmp/binaries/windows/64/dynare_m.exe
+	mkdir -p builds/$(PREPROCESSOR_GIT_COMMIT)/windows/64
+	cd tmp/binaries/windows/64 && tar cfz preprocessor.tar.gz dynare_m.exe
+	mv tmp/binaries/windows/64/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/windows/64
+	cd builds/$(PREPROCESSOR_GIT_COMMIT)/windows/64 && sha256sum preprocessor.tar.gz > sha256sum && gpg --clearsign sha256sum
 
 tmp/binaries/windows/32/dynare_m.exe:
 	mkdir -p tmp/windows/32
@@ -218,22 +215,20 @@ tmp/binaries/windows/64/dynare_m.exe:
 # BUILD PREPROCESSOR (OSX TARGET)
 #
 
-osx-dist: builds/osx/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
+osx-dist: builds/$(PREPROCESSOR_GIT_COMMIT)/osx/32/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/osx/64/preprocessor.tar.gz
 	rm -rf tmp/binaries/osx
 
-tmp/binaries/osx.zip: osx-build
-	cd tmp/binaries/osx && zip -r osx.zip .
+builds/$(PREPROCESSOR_GIT_COMMIT)/osx/32/preprocessor.tar.gz: tmp/binaries/osx/32/dynare_m
+	mkdir -p builds/$(PREPROCESSOR_GIT_COMMIT)/osx/32
+	cd tmp/binaries/osx/32 && tar cfz preprocessor.tar.gz dynare_m
+	mv tmp/binaries/osx/32/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/osx/32
+	cd builds/$(PREPROCESSOR_GIT_COMMIT)/osx/32 && sha256sum preprocessor.tar.gz > sha256sum && gpg --clearsign sha256sum
 
-builds/osx/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/osx.zip
-	mkdir -p builds/osx/$(PREPROCESSOR_GIT_COMMIT)
-	mv tmp/binaries/osx/osx.zip builds/osx/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
-	cd builds/osx/$(PREPROCESSOR_GIT_COMMIT) && sha256sum preprocessor.zip > sha256sum && gpg --clearsign sha256sum
-	@if [ $(REMOTE_FILE) -eq 1 ]; then\
-        scp -r builds/osx/$(PREPROCESSOR_GIT_COMMIT) $(REMOTE_SERVER):$(REMOTE_PATH)/osx ;\
-	fi
-
-osx-build: tmp/binaries/osx/32/dynare_m tmp/binaries/osx/64/dynare_m
-	rm -rf tmp/osx
+builds/$(PREPROCESSOR_GIT_COMMIT)/osx/64/preprocessor.tar.gz: tmp/binaries/osx/64/dynare_m
+	mkdir -p builds/$(PREPROCESSOR_GIT_COMMIT)/osx/64
+	cd tmp/binaries/osx/64 && tar cfz preprocessor.tar.gz dynare_m
+	mv tmp/binaries/osx/64/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/osx/64
+	cd builds/$(PREPROCESSOR_GIT_COMMIT)/osx/64 && sha256sum preprocessor.tar.gz > sha256sum && gpg --clearsign sha256sum
 
 tmp/binaries/osx/32/dynare_m:
 	mkdir -p tmp/osx/32
