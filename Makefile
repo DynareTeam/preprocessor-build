@@ -138,13 +138,13 @@ linux-dist: builds/$(PREPROCESSOR_GIT_COMMIT)/linux/32/preprocessor.tar.gz build
 
 builds/$(PREPROCESSOR_GIT_COMMIT)/linux/32/preprocessor.tar.gz: tmp/binaries/linux/32/dynare_m
 	mkdir -p builds/$(PREPROCESSOR_GIT_COMMIT)/linux/32
-	cd tmp/binaries/linux/32 && tar cfz preprocessor.tar.gz dynare_m
+	cd tmp/binaries/linux/32 && mkdir -p bin && mv dynare_m bin && tar cfz preprocessor.tar.gz bin
 	mv tmp/binaries/linux/32/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/linux/32
 	cd builds/$(PREPROCESSOR_GIT_COMMIT)/linux/32 && sha256sum preprocessor.tar.gz > sha256sum && gpg --clearsign sha256sum
 
 builds/$(PREPROCESSOR_GIT_COMMIT)/linux/64/preprocessor.tar.gz: tmp/binaries/linux/64/dynare_m
 	mkdir -p builds/$(PREPROCESSOR_GIT_COMMIT)/linux/64
-	cd tmp/binaries/linux/64 && tar cfz preprocessor.tar.gz dynare_m
+	cd tmp/binaries/linux/64 && mkdir -p bin && mv dynare_m bin && tar cfz preprocessor.tar.gz bin
 	mv tmp/binaries/linux/64/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/linux/64
 	cd builds/$(PREPROCESSOR_GIT_COMMIT)/linux/64 && sha256sum preprocessor.tar.gz > sha256sum && gpg --clearsign sha256sum
 
@@ -179,13 +179,13 @@ windows-dist: builds/$(PREPROCESSOR_GIT_COMMIT)/windows/32/preprocessor.tar.gz b
 
 builds/$(PREPROCESSOR_GIT_COMMIT)/windows/32/preprocessor.tar.gz: tmp/binaries/windows/32/dynare_m.exe
 	mkdir -p builds/$(PREPROCESSOR_GIT_COMMIT)/windows/32
-	cd tmp/binaries/windows/32 && tar cfz preprocessor.tar.gz dynare_m.exe
+	cd tmp/binaries/windows/32 && mkdir -p bin && mv dynare_m.exe bin && tar cfz preprocessor.tar.gz bin
 	mv tmp/binaries/windows/32/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/windows/32
 	cd builds/$(PREPROCESSOR_GIT_COMMIT)/windows/32 && sha256sum preprocessor.tar.gz > sha256sum && gpg --clearsign sha256sum
 
 builds/$(PREPROCESSOR_GIT_COMMIT)/windows/64/preprocessor.tar.gz: tmp/binaries/windows/64/dynare_m.exe
 	mkdir -p builds/$(PREPROCESSOR_GIT_COMMIT)/windows/64
-	cd tmp/binaries/windows/64 && tar cfz preprocessor.tar.gz dynare_m.exe
+	cd tmp/binaries/windows/64 && mkdir -p bin && mv dynare_m.exe bin && tar cfz preprocessor.tar.gz bin
 	mv tmp/binaries/windows/64/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/windows/64
 	cd builds/$(PREPROCESSOR_GIT_COMMIT)/windows/64 && sha256sum preprocessor.tar.gz > sha256sum && gpg --clearsign sha256sum
 
@@ -220,13 +220,13 @@ osx-dist: builds/$(PREPROCESSOR_GIT_COMMIT)/osx/32/preprocessor.tar.gz builds/$(
 
 builds/$(PREPROCESSOR_GIT_COMMIT)/osx/32/preprocessor.tar.gz: tmp/binaries/osx/32/dynare_m
 	mkdir -p builds/$(PREPROCESSOR_GIT_COMMIT)/osx/32
-	cd tmp/binaries/osx/32 && tar cfz preprocessor.tar.gz dynare_m
+	cd tmp/binaries/osx/32 && mkdir -p bin && mv dynare_m bin && tar cfz preprocessor.tar.gz bin
 	mv tmp/binaries/osx/32/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/osx/32
 	cd builds/$(PREPROCESSOR_GIT_COMMIT)/osx/32 && sha256sum preprocessor.tar.gz > sha256sum && gpg --clearsign sha256sum
 
 builds/$(PREPROCESSOR_GIT_COMMIT)/osx/64/preprocessor.tar.gz: tmp/binaries/osx/64/dynare_m
 	mkdir -p builds/$(PREPROCESSOR_GIT_COMMIT)/osx/64
-	cd tmp/binaries/osx/64 && tar cfz preprocessor.tar.gz dynare_m
+	cd tmp/binaries/osx/64 && mkdir -p bin && mv dynare_m bin && tar cfz preprocessor.tar.gz bin
 	mv tmp/binaries/osx/64/preprocessor.tar.gz builds/$(PREPROCESSOR_GIT_COMMIT)/osx/64
 	cd builds/$(PREPROCESSOR_GIT_COMMIT)/osx/64 && sha256sum preprocessor.tar.gz > sha256sum && gpg --clearsign sha256sum
 
