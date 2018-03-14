@@ -141,7 +141,7 @@ tmp/binaries/linux.zip: linux-build
 builds/linux/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/linux.zip
 	mkdir -p builds/linux/$(PREPROCESSOR_GIT_COMMIT)
 	mv tmp/binaries/linux/linux.zip builds/linux/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
-	cd builds/linux/$(PREPROCESSOR_GIT_COMMIT) && sha512sum preprocessor.zip > sha512sum && gpg --clearsign sha512sum
+	cd builds/linux/$(PREPROCESSOR_GIT_COMMIT) && sha256sum preprocessor.zip > sha256sum && gpg --clearsign sha256sum
 	@if [ $(REMOTE_FILE) -eq 1 ]; then\
         scp -r builds/linux/$(PREPROCESSOR_GIT_COMMIT) $(REMOTE_SERVER):$(REMOTE_PATH)/linux ;\
 	fi
@@ -184,7 +184,7 @@ tmp/binaries/windows.zip: windows-build
 builds/windows/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/windows.zip
 	mkdir -p builds/windows/$(PREPROCESSOR_GIT_COMMIT)
 	mv tmp/binaries/windows/windows.zip builds/windows/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
-	cd builds/windows/$(PREPROCESSOR_GIT_COMMIT) && sha512sum preprocessor.zip > sha512sum && gpg --clearsign sha512sum
+	cd builds/windows/$(PREPROCESSOR_GIT_COMMIT) && sha256sum preprocessor.zip > sha256sum && gpg --clearsign sha256sum
 	@if [ $(REMOTE_FILE) -eq 1 ]; then\
         scp -r builds/windows/$(PREPROCESSOR_GIT_COMMIT) $(REMOTE_SERVER):$(REMOTE_PATH)/windows ;\
 	fi
@@ -227,7 +227,7 @@ tmp/binaries/osx.zip: osx-build
 builds/osx/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip: tmp/binaries/osx.zip
 	mkdir -p builds/osx/$(PREPROCESSOR_GIT_COMMIT)
 	mv tmp/binaries/osx/osx.zip builds/osx/$(PREPROCESSOR_GIT_COMMIT)/preprocessor.zip
-	cd builds/osx/$(PREPROCESSOR_GIT_COMMIT) && sha512sum preprocessor.zip > sha512sum && gpg --clearsign sha512sum
+	cd builds/osx/$(PREPROCESSOR_GIT_COMMIT) && sha256sum preprocessor.zip > sha256sum && gpg --clearsign sha256sum
 	@if [ $(REMOTE_FILE) -eq 1 ]; then\
         scp -r builds/osx/$(PREPROCESSOR_GIT_COMMIT) $(REMOTE_SERVER):$(REMOTE_PATH)/osx ;\
 	fi
