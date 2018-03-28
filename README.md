@@ -17,25 +17,66 @@ Then to produce the binaries:
 ```shell
 ~$ make -j
 ```
-By default, the build system uses the last commit in the master branch of [dynare-preprocessor](https://github.com/DynareTeam/dynare-preprocessor.git). If the HEAD is 5d339b69defe8fa8ded3fa86e71dec1e9f2a8cbe, then the build system will produce three `preprocessor.zip` files under the `./builds` folder with signed sha512sum:
+By default, the build system uses the last commit in the master branch of [dynare-preprocessor](https://github.com/DynareTeam/dynare-preprocessor.git). If the HEAD is 5727083865753f5abde8bdc0c20eee2b1ed5a501, then the build system will produce three `preprocessor.tar.gz` files under the `./builds/5727083865753f5abde8bdc0c20eee2b1ed5a501` folder with signed sha512sum:
 
 ```example
 builds
-├── linux
-│   └── 5d339b69defe8fa8ded3fa86e71dec1e9f2a8cbe
-│       ├── preprocessor.zip
-│       ├── sha512sum
-│       └── sha512sum.asc
-├── osx
-│   └── 5d339b69defe8fa8ded3fa86e71dec1e9f2a8cbe
-│       ├── preprocessor.zip
-│       ├── sha512sum
-│       └── sha512sum.asc
-└── windows
-    └── 5d339b69defe8fa8ded3fa86e71dec1e9f2a8cbe
-        ├── preprocessor.zip
-        ├── sha512sum
-        └── sha512sum.asc
+├── 5727083865753f5abde8bdc0c20eee2b1ed5a501
+│   ├── linux
+│   │   ├── 32
+│   │   │   ├── preprocessor.tar.gz
+│   │   │   ├── sha256sum
+│   │   │   └── sha256sum.asc
+│   │   └── 64
+│   │       ├── preprocessor.tar.gz
+│   │       ├── sha256sum
+│   │       └── sha256sum.asc
+│   ├── osx
+│   │   ├── 32
+│   │   │   ├── preprocessor.tar.gz
+│   │   │   ├── sha256sum
+│   │   │   └── sha256sum.asc
+│   │   └── 64
+│   │       ├── preprocessor.tar.gz
+│   │       ├── sha256sum
+│   │       └── sha256sum.asc
+│   └── windows
+│       ├── 32
+│       │   ├── preprocessor.tar.gz
+│       │   ├── sha256sum
+│       │   └── sha256sum.asc
+│       └── 64
+│           ├── preprocessor.tar.gz
+│           ├── sha256sum
+│           └── sha256sum.asc
+└── c4ae840b207dbc4e61bff315e8eaa28fb742d9ea
+    ├── linux
+    │   ├── 32
+    │   │   ├── preprocessor.tar.gz
+    │   │   ├── sha256sum
+    │   │   └── sha256sum.asc
+    │   └── 64
+    │       ├── preprocessor.tar.gz
+    │       ├── sha256sum
+    │       └── sha256sum.asc
+    ├── osx
+    │   ├── 32
+    │   │   ├── preprocessor.tar.gz
+    │   │   ├── sha256sum
+    │   │   └── sha256sum.asc
+    │   └── 64
+    │       ├── preprocessor.tar.gz
+    │       ├── sha256sum
+    │       └── sha256sum.asc
+    └── windows
+        ├── 32
+        │   ├── preprocessor.tar.gz
+        │   ├── sha256sum
+        │   └── sha256sum.asc
+        └── 64
+            ├── preprocessor.tar.gz
+            ├── sha256sum
+            └── sha256sum.asc
 ```
 If one wants to build the preprocessor based on another commit or branch, he needs to provide the informations in a file called `configure.inc`. This file may look like:
 ```example
